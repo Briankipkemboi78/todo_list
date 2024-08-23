@@ -36,8 +36,13 @@
                 {% endif %}
                 <a href="{{ url_for('delete_task', task_id=task[0]) }}">Delete</a>
             </div>
-
         </li>
+        {% endfor %}
     </ul>
+
+    <form action="{{ url_for('add_task') }}" method="POST">
+        <input type="text" name="title" placeholder="Add new task" required>
+        <input type="submit" value="Add">
+    </form>
 </body>
 </html>
