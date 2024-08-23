@@ -9,9 +9,35 @@
             font-family: sans-serif;
             margin: 20px;
         }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        form {margin-top: 20px;}
+        input[type="text"] {padding: 10px; width: 70%;}
+        input[type="submit"] {padding: 10px;}
     </style>
 </head>
 <body>
-    <h1>Welcome to my App</h1>
+    <h1>DO THE TASK</h1>
+    <ul>
+        {% for task in tasks %}
+        <li class="task">
+            <span class="{{ 'completed' if task[2] else ''}}">{{ task[1] }}</span>
+            <div>
+                {% if not task[2] %}
+                    <a href="{{ url_for('complete_task', task_id=task[0]) }}">Complete</a>
+                {% endif %}
+                <a href="{{ url_for('delete_task', task_id=task[0]) }}">Delete</a>
+            </div>
+
+        </li>
+    </ul>
 </body>
 </html>
