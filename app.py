@@ -9,7 +9,6 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-
 # Initialize db
 def init_db():
     conn = get_db_connection()
@@ -19,6 +18,7 @@ def init_db():
                  title TEXT NOT NULL, 
                  done BOOLEAN NOT NULL,
                  created_at TEXT,
+                 due_date TEXT,
                  completed_at TEXT
                  )
             ''')
@@ -26,7 +26,6 @@ def init_db():
     conn.close()
 
 init_db()
-
 
 @app.route('/')
 def index():
@@ -40,7 +39,7 @@ def add_task():
     title = request.form['title']
     due_date = request.form['due_date']
     conn = get_db_connection()
-    conn.execute("INSERT INTO tasks (title, done) VALUES (?, ?, ?, ?)", 
+    conn.execute("INSERT INTO tasks (title, done, created_at, due_date) VALUES (?, ?, ?, ?)", 
                  (title, False, datetime.now().isoformat(), due_date))
     conn.commit()
     conn.close()
@@ -49,12 +48,11 @@ def add_task():
 @app.route('/complete/<int:task_id>', methods=['POST'])
 def complete_task(task_id):
     conn = get_db_connection()
-    conn.execute("UPDATE tasks SET done = ? WHERE id = ?", 
+    conn.execute("UPDATE tasks SET done = 1, completed_at = ? WHERE id = ?", 
                  (datetime.now().isoformat(), task_id))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
-
 
 @app.route('/delete/<int:task_id>', methods=['POST'])
 def delete_task(task_id):
@@ -64,5 +62,5 @@ def delete_task(task_id):
     conn.close()
     return redirect(url_for('index'))
 
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run(debug=True)
