@@ -30,8 +30,16 @@ init_db()
 @app.route('/')
 def index():
     conn = get_db_connection()
-    tasks = conn.execute("SELECT * FROM tasks").fetchall()
+    rows = conn.execute("SELECT * FROM tasks").fetchall()
     conn.close()
+
+   # Convert sqlite3.Row objects to dictionaries
+    tasks = [dict(row) for row in rows]
+
+    # Convert completed_at strings to datetime objects
+    for task in tasks:
+        if task['completed_at']:
+            task['completed_at'] = datetime.fromisoformat(task['completed_at'])
     return render_template('index.html', tasks=tasks)
 
 @app.route('/add', methods=['POST'])
