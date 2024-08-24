@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY TASKS</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-    <h1>DO THE TASK</h1>
-    <form action="{{ url_for('add_task') }}" method="post">
-        <input type="text" name="title" placeholder="New Task" required>
-        <input type="date" name="due_date" required>
-        <button type="submit"> Add Task </button>
-    </form>
-    <ul>
-        {% for task in tasks %}
-        <li class="task">
-            {{ task.title }} - Due: {{ task.due_date }}
-            {% if task.done %}
-            <span>Completed on {{ task.completed_at }}</span>
-            {% else %}
-            <form action="{{ url_for('complete_task', task_id=task.id) }}" method="post" style="display: inline;">
-                <button type="submit">Mark Complete</button>
-            </form>
-            {% endif %}
-            <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" style="display: inline;">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+        <h1>DO THE TASK</h1>
+        <form action="{{ url_for('add_task') }}" method="post">
+            <input type="text" name="title" placeholder="New Task" required>
+            <input type="date" name="due_date" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+            <li class="task">
+                <span class="task-name">{{ task.title }} - Due: {{ task.due_date }}</span>
+                <div class="task-buttons">
+                    {% if task.done %}
+                    <span>Completed on {{ task.completed_at.strftime('%Y-%m-%d') }}</span>
+                    {% else %}
+                    <form action="{{ url_for('complete_task', task_id=task.id) }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-success">Mark Complete</button>
+                    </form>
+                    {% endif %}
+                    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        
+    </div>
 </body>
 </html>

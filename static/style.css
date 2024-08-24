@@ -21,18 +21,19 @@ body {
 h1 {
     text-align: center;
     color: #333;
+    margin-bottom: 20px;
 }
 
 form {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-form input[type="text"], form input[type="data"] {
-    width: 70%;
+form input[type="text"], form input[type="date"] {
+    width: 35%;
     padding: 10px;
-    margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -44,7 +45,6 @@ form button {
     color: white;
     border-radius: 5px;
     cursor: pointer;
-
 }
 
 form button:hover {
@@ -61,21 +61,36 @@ ul li {
     background: #f9f9f9;
     border-bottom: 1px solid #ddd;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-ul li span {
+ul li span.task-name {
     flex: 1;
 }
 
-ul li a {
-    margin-left: 10px;
-    color: #d9534f;
-    text-decoration: none;
+.task-buttons {
+    display: inline-flex;
+    gap: 10px;
 }
 
-ul li a:hover {
-    text-decoration: underline;
+.btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
